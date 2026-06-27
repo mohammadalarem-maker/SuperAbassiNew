@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
     namespace "com.abassi.app"
     compileSdk 34
 
