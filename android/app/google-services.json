@@ -1,33 +1,46 @@
 {
   "project_info": {
-    "project_number": "769797520694",
-    "project_id": "gen-lang-client-0621337551",
-    "storage_bucket": "gen-lang-client-0621337551.appspot.com"
+    "project_number": "795331442491",
+    "firebase_url": "https://mohalistore-fa8b3-default-rtdb.firebaseio.com",
+    "project_id": "mohalistore-fa8b3",
+    "storage_bucket": "mohalistore-fa8b3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:769797520694:android:3634a7ee8b2b4c406f4797",
+        "mobilesdk_app_id": "1:795331442491:android:9d8611a8c3b4f57c78291e",
         "android_client_info": {
-          "package_name": "com.alhusam.phone"
+          "package_name": "com.abassi.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDm0rinMzRLZl9GWqIk3OqpIBaDMctbTUE"
+          "current_key": "AIzaSyBFuojAdUfZBzz5I-Qj3s8a3LXhlWntznQ"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
           "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795331442491:android:d471219ebf01ae1a78291e",
+        "android_client_info": {
+          "package_name": "com.mohali.store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFuojAdUfZBzz5I-Qj3s8a3LXhlWntznQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }
