@@ -38,30 +38,17 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Cache Gradle Packages
-        uses: actions/cache@v4
+      - name: Setup Compatible Gradle Version
+        uses: gradle/actions/setup-gradle@v4
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Make Gradle Executable
-        run: |
-          if [ -f "android/gradlew" ]; then
-            chmod +x android/gradlew
-          elif [ -f "gradlew" ]; then
-            chmod +x gradlew
-          fi
+          gradle-version: 8.7
 
       - name: Build APK (Release)
         run: |
           if [ -d "android" ]; then
-            cd android && ./gradlew assembleRelease
+            cd android && gradle assembleRelease
           elif [ -f "gradlew" ]; then
-            ./gradlew assembleRelease
+            gradle assembleRelease
           else
             echo "مجلد مشروع الأندرويد غير موجود!" && exit 1
           fi
