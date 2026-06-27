@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace "com.abassi.app"
     compileSdk 34
 
     defaultConfig {
