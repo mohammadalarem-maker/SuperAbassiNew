@@ -170,7 +170,7 @@ export const Login: React.FC = () => {
         </form>
 
         <div className="text-center text-[10px] text-[#A89F95] font-sans">
-          حقوق الطبع محفوظة © {new Date().getFullYear()} - سوبر ماركت العباسي
+          v40 - حقوق الطبع محفوظة © {new Date().getFullYear()} - سوبر ماركت العباسي
         </div>
 
       </div>
