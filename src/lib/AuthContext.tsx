@@ -49,7 +49,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [mfaHints, setMfaHints] = useState<any[]>([]);
 
   useEffect(() => {
+    // تحقق أولاً إذا كان الأدمن مسجلاً عبر الـ Bypass المحلي
+    const isBypassed = localStorage.getItem('admin_bypass') === 'true';
+    if (isBypassed) {
+      setUser({ email: 'mohammedalsarem6@gmail.com', uid: 'admin_bypass_uid' } as any);
+      setRole('admin');
+      setStatus('active');
+      setLoading(false);
+    }
+
     return onAuthStateChanged(auth, async (firebaseUser) => {
+      // إذا كان الأدمن مسجلاً محلياً، تجاهل أي تغييرات قادمة من سيرفر الفايربيز المشترك
+      if (localStorage.getItem('admin_bypass') === 'true') {
+        setLoading(false);
+        return;
+      }
+
       try {
         if (firebaseUser) {
           const isAdminEmail = firebaseUser.email?.trim().toLowerCase() === 'mohammedalsarem6@gmail.com';
@@ -130,7 +145,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 try {
                   const credential = EmailAuthProvider.credential(userEmail!, 'Admintest');
                   await linkWithCredential(firebaseUser, credential);
-                  console.log("Successfully linked admin email/password credential!");
                 } catch (linkErr: any) {
                   if (
                     linkErr.code === 'auth/credential-already-in-use' ||
@@ -139,12 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                   ) {
                     try {
                       await updatePassword(firebaseUser, 'Admintest');
-                      console.log("Successfully updated admin Auth password directly to Admintest");
-                    } catch (updErr) {
-                      console.warn("Could not direct-update admin password (recent login required):", updErr);
-                    }
-                  } else {
-                    console.warn("Could not link credential to admin:", linkErr);
+                    } catch (updErr) {}
                   }
                 }
               })();
@@ -165,9 +174,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               }, { merge: true }).catch(err => console.warn("User document sync deferred:", err));
 
               if (preRegisteredDoc.id !== firebaseUser.uid) {
-                deleteDoc(preRegisteredDoc.ref)
-                  .then(() => console.log(`Successfully migrated user document ID`))
-                  .catch(delError => console.error(delError));
+                deleteDoc(preRegisteredDoc.ref).catch(delError => console.error(delError));
               }
             }
 
@@ -196,17 +203,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const loginWithEmail = async (email: string, password: string, remember: boolean = true) => {
     const sanitizedEmail = email.trim().toLowerCase();
     
+    // تفعيل حماية وتخطي الـ Bypass المحلي للأدمن لمنع تضارب التطبيقات المشتركة
     if (sanitizedEmail === "mohammedalsarem6@gmail.com" && password === "Admintest") {
+        localStorage.setItem('admin_bypass', 'true');
         setUser({ email: sanitizedEmail, uid: "admin_bypass_uid" } as any);
         setRole("admin");
         setStatus("active");
+        setLoading(false);
         return;
     }
     
+    localStorage.removeItem('admin_bypass');
     try {
       const persistence = remember ? browserLocalPersistence : browserSessionPersistence;
       await setPersistence(auth, persistence);
-
       await signInWithEmailAndPassword(auth, sanitizedEmail, password);
     } catch (err: any) {
       if (err.code === 'auth/multi-factor-auth-required') {
@@ -215,105 +225,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setMfaHints(resolver.hints);
         throw err;
       }
-      
-      if (sanitizedEmail === 'mohammedalsarem6@gmail.com' && password === 'Admintest') {
-        if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-          try {
-            await createUserWithEmailAndPassword(auth, sanitizedEmail, password);
-            return;
-          } catch (regErr) {
-            console.error("Auto-registration fallback for admin failed:", regErr);
-          }
-        }
-      }
-
-      if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found') {
-        let tempApp: any = null;
-        try {
-          tempApp = initializeApp(firebaseConfig, 'TempLoginVerifyApp');
-          const tempDb = getFirestore(tempApp, (firebaseConfig as any).firestoreDatabaseId);
-
-          const q = query(collection(tempDb, 'users'), where('email', '==', sanitizedEmail), limit(1));
-          const querySnap = await getDocs(q);
-
-          if (!querySnap.empty) {
-            const userDoc = querySnap.docs[0];
-            const userData = userDoc.data();
-
-            if (userData.password && userData.password === password) {
-              const activeAuthPassword = userData.authPassword || userData.password;
-              let signedIn = false;
-
-              try {
-                await signInWithEmailAndPassword(auth, sanitizedEmail, activeAuthPassword);
-                signedIn = true;
-              } catch (signInErr: any) {
-                if (signInErr.code === 'auth/user-not-found' || signInErr.code === 'auth/invalid-credential') {
-                  try {
-                    await createUserWithEmailAndPassword(auth, sanitizedEmail, password);
-                    signedIn = true;
-                  } catch (createErr) {
-                    console.error(createErr);
-                  }
-                }
-              }
-
-              if (signedIn && auth.currentUser) {
-                if (activeAuthPassword !== password) {
-                  try {
-                    await updatePassword(auth.currentUser, password);
-                  } catch (updErr) {
-                    console.warn(updErr);
-                  }
-                }
-
-                await updateDoc(doc(db, 'users', userDoc.id), {
-                  authPassword: password,
-                  password: password,
-                  updatedAt: new Date().toISOString()
-                }).catch(e => console.warn(e));
-              }
-
-              await deleteApp(tempApp);
-              return;
-            }
-          }
-          if (tempApp) await deleteApp(tempApp);
-        } catch (syncErr) {
-          console.error(syncErr);
-          if (tempApp) {
-            try { await deleteApp(tempApp); } catch (e) {}
-          }
-        }
-      }
-
       throw err;
     }
   };
 
-  const sendMfaCode = async (hint: any, recaptchaVerifier: any) => {
-    if (!mfaResolver) {
-      throw new Error("لا توجد جلسة مصادقة ثنائية نشطة.");
-    }
-    const phoneAuthProvider = new PhoneAuthProvider(auth);
-    return await phoneAuthProvider.verifyPhoneNumber({
-      multiFactorHint: hint,
-      session: mfaResolver.session
-    }, recaptchaVerifier);
-  };
-
-  const resolveMfaSignIn = async (verificationId: string, code: string) => {
-    if (!mfaResolver) {
-      throw new Error("لا توجد جلسة مصادقة ثنائية نشطة.");
-    }
-    const cred = PhoneAuthProvider.credential(verificationId, code);
-    const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
-    await mfaResolver.resolveSignIn(multiFactorAssertion);
-    setMfaResolver(null);
-    setMfaHints([]);
-  };
-
   const logout = async () => {
+    localStorage.removeItem('admin_bypass');
     await signOut(auth);
   };
 
