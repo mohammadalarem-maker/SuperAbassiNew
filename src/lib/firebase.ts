@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDe5YiK-zxhfBWKvOuQxr4NC5M8s4oFGxc",
@@ -15,8 +16,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 
-// تحويلها إلى كائن حقيقي (Object) يحتوي على خيار LIST لإصلاح خطأ البناء
+// كائن العمليات الخاص بملف البيانات
 export const OperationType = {
   LIST: 'LIST',
   ADD: 'add',
@@ -26,7 +28,7 @@ export const OperationType = {
   QUERY: 'query'
 } as const;
 
-// تحديث الدالة لتستقبل العمليات وأسماء المجموعات المتمررة إليها
+// دالة معالجة الأخطاء المتوافقة
 export const handleFirestoreError = (error: any, operation?: string, collectionName?: string) => {
   console.error(`Firestore Error [${operation || 'unknown'}] on [${collectionName || 'unknown'}]:`, error);
   return error?.message || "حدث خطأ في قاعدة البيانات";
