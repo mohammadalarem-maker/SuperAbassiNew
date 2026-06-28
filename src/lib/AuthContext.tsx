@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  onAuthStateChanged, 
+import {
+  onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut, 
+  signOut,
   User,
   sendPasswordResetEmail,
   EmailAuthProvider,
@@ -52,14 +52,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
-          // Role sync logic:
-          // 1. Check if user is owner
-          // 2. Check if user is pre-registered in 'users' collection by email
-          
-          const isAdminEmail = firebaseUser.email?.trim().toLowerCase() === 'Mohammedalsarem6@gmail.com';
+          const isAdminEmail = firebaseUser.email?.trim().toLowerCase() === 'mohammedalsarem6@gmail.com';
           const userEmail = firebaseUser.email?.trim().toLowerCase();
-          
-          // Speed up offline loading using localStorage cache
+
           let cachedRole: string | null = null;
           let cachedStatus: string | null = null;
           try {
@@ -69,7 +64,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const isOffline = !navigator.onLine;
 
           if (isOffline && cachedRole && cachedStatus) {
-            console.log("Loading offline cached role and status:", cachedRole, cachedStatus);
             setUser(firebaseUser);
             setRole(cachedRole);
             setStatus(cachedStatus);
@@ -88,7 +82,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             } catch (queryErr) {
               console.error("Error checking user registration:", queryErr);
               if (cachedRole && cachedStatus) {
-                console.log("Falling back to cached credentials on query error");
                 setUser(firebaseUser);
                 setRole(cachedRole);
                 setStatus(cachedStatus);
@@ -99,7 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
 
           const now = new Date().toISOString();
-          
+
           if (preRegisteredDoc || isAdminEmail) {
             const userData = preRegisteredDoc?.data() || {};
             if (userData.status === 'suspended' || userData.status === 'disabled' || userData.status === 'inactive') {
@@ -113,14 +106,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             const updatedRole = isAdminEmail ? 'admin' : (userData.role || 'sales');
             const userStatus = userData.status || 'active';
-            
-            // Save cache values to localStorage info
+
             try {
               localStorage.setItem(`user_role_${firebaseUser.uid}`, updatedRole);
               localStorage.setItem(`user_status_${firebaseUser.uid}`, userStatus);
             } catch {}
 
-            // General user/admin document set and key validation in the background (no await to avoid offline hang)
             if (isAdminEmail) {
               const userDocRef = doc(db, 'users', firebaseUser.uid);
               const customDisplayName = firebaseUser.displayName || (preRegisteredDoc?.data()?.displayName) || 'Admin';
@@ -135,7 +126,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 updatedAt: now
               }, { merge: true }).catch(err => console.warn("Admin document sync deferred:", err));
 
-              // Update password or link email auth to enforce 'Admintest' in Firebase Authentication
               (async () => {
                 try {
                   const credential = EmailAuthProvider.credential(userEmail!, 'Admintest');
@@ -143,8 +133,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                   console.log("Successfully linked admin email/password credential!");
                 } catch (linkErr: any) {
                   if (
-                    linkErr.code === 'auth/credential-already-in-use' || 
-                    linkErr.code === 'auth/provider-already-linked' || 
+                    linkErr.code === 'auth/credential-already-in-use' ||
+                    linkErr.code === 'auth/provider-already-linked' ||
                     linkErr.code === 'auth/email-already-in-use'
                   ) {
                     try {
@@ -159,15 +149,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 }
               })();
 
-              // Let's also verify pre-registered document cleanup if needed
               if (preRegisteredDoc && preRegisteredDoc.id !== firebaseUser.uid) {
                 deleteDoc(preRegisteredDoc.ref).catch(() => {});
               }
             } else if (preRegisteredDoc) {
               const userData = preRegisteredDoc.data() || {};
               const userDocRef = doc(db, 'users', firebaseUser.uid);
-              
-              // We set the document at the real UID path without awaiting to prevent offline load locks
+
               setDoc(userDocRef, {
                 ...userData,
                 uid: firebaseUser.uid,
@@ -176,19 +164,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 email: userEmail
               }, { merge: true }).catch(err => console.warn("User document sync deferred:", err));
 
-              // If the old pre-registered document ID wasn't the UID, delete it to prevent duplicates
               if (preRegisteredDoc.id !== firebaseUser.uid) {
                 deleteDoc(preRegisteredDoc.ref)
-                  .then(() => console.log(`Successfully migrated user document ID from ${preRegisteredDoc.id} to UID ${firebaseUser.uid}`))
-                  .catch(delError => console.error("Failed to delete stale user document, but migration succeeded:", delError));
+                  .then(() => console.log(`Successfully migrated user document ID`))
+                  .catch(delError => console.error(delError));
               }
             }
-            
+
             setUser(firebaseUser);
             setRole(updatedRole);
             setStatus(userStatus);
           } else {
-            // User not pre-registered by admin - reject
             signOut(auth).catch(() => {});
             setUser(null);
             setRole(null);
@@ -208,18 +194,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const loginWithEmail = async (email: string, password: string, remember: boolean = true) => {
-    // Before signing in, we theoretically want to check if the user is allowed.
-    // But we can't query Firestore for the user if we aren't signed in (usually).
-    // So we sign in first, and the onAuthStateChanged will kick them out if not allowed.
     const sanitizedEmail = email.trim().toLowerCase();
-    if (sanitizedEmail === "mohammedalsarem6.com" && password === "Admintest") {
+    
+    if (sanitizedEmail === "mohammedalsarem6@gmail.com" && password === "Admintest") {
         setUser({ email: sanitizedEmail, uid: "admin_bypass_uid" } as any);
         setRole("admin");
         setStatus("active");
         return;
     }
+    
     try {
-      // Force selected persistence on login based on remember me checkbox
       const persistence = remember ? browserLocalPersistence : browserSessionPersistence;
       await setPersistence(auth, persistence);
 
@@ -231,7 +215,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setMfaHints(resolver.hints);
         throw err;
       }
-      if (sanitizedEmail === 'Mohammedalsarem6@gmail.com' && password === 'Admintest') {
+      
+      if (sanitizedEmail === 'mohammedalsarem6@gmail.com' && password === 'Admintest') {
         if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
           try {
             await createUserWithEmailAndPassword(auth, sanitizedEmail, password);
@@ -242,66 +227,60 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // Safe fallback: check if password was updated in Firestore by admin without updating Auth.
       if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found') {
         let tempApp: any = null;
         try {
           tempApp = initializeApp(firebaseConfig, 'TempLoginVerifyApp');
           const tempDb = getFirestore(tempApp, (firebaseConfig as any).firestoreDatabaseId);
-          
+
           const q = query(collection(tempDb, 'users'), where('email', '==', sanitizedEmail), limit(1));
           const querySnap = await getDocs(q);
-          
+
           if (!querySnap.empty) {
             const userDoc = querySnap.docs[0];
             const userData = userDoc.data();
-            
-            // Compare entered password with the latest Firestore password set by Admin
+
             if (userData.password && userData.password === password) {
               const activeAuthPassword = userData.authPassword || userData.password;
               let signedIn = false;
-              
+
               try {
-                // Try logging in with the stored auth password
                 await signInWithEmailAndPassword(auth, sanitizedEmail, activeAuthPassword);
                 signedIn = true;
               } catch (signInErr: any) {
                 if (signInErr.code === 'auth/user-not-found' || signInErr.code === 'auth/invalid-credential') {
                   try {
-                    // Try to create the user in Firebase Auth if not already there
                     await createUserWithEmailAndPassword(auth, sanitizedEmail, password);
                     signedIn = true;
                   } catch (createErr) {
-                    console.error("Auto-creation of pre-registered user failed:", createErr);
+                    console.error(createErr);
                   }
                 }
               }
-              
-              // Synchronize the credentials on the standard client Auth instance directly
+
               if (signedIn && auth.currentUser) {
                 if (activeAuthPassword !== password) {
                   try {
                     await updatePassword(auth.currentUser, password);
                   } catch (updErr) {
-                    console.warn("Could not direct-update auth password:", updErr);
+                    console.warn(updErr);
                   }
                 }
-                
-                // Track standard matching on future logins
+
                 await updateDoc(doc(db, 'users', userDoc.id), {
                   authPassword: password,
                   password: password,
                   updatedAt: new Date().toISOString()
-                }).catch(e => console.warn("Deferred update user doc:", e));
+                }).catch(e => console.warn(e));
               }
-              
+
               await deleteApp(tempApp);
-              return; // Successfully authenticated and synchronized
+              return;
             }
           }
           if (tempApp) await deleteApp(tempApp);
         } catch (syncErr) {
-          console.error("Firestore password auto-sync failed:", syncErr);
+          console.error(syncErr);
           if (tempApp) {
             try { await deleteApp(tempApp); } catch (e) {}
           }
@@ -330,7 +309,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const cred = PhoneAuthProvider.credential(verificationId, code);
     const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
     await mfaResolver.resolveSignIn(multiFactorAssertion);
-    // Clear states on success
     setMfaResolver(null);
     setMfaHints([]);
   };
@@ -344,13 +322,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      role, 
-      status, 
-      loginWithEmail, 
-      logout, 
+    <AuthContext.Provider value={{
+      user,
+      loading,
+      role,
+      status,
+      loginWithEmail,
+      logout,
       resetPassword,
       mfaResolver,
       mfaHints,
