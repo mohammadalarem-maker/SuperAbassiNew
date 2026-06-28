@@ -16,10 +16,18 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// التعريف الذي كان ينقصنا
-export type OperationType = 'add' | 'update' | 'delete' | 'read' | 'query';
+// تحويلها إلى كائن حقيقي (Object) يحتوي على خيار LIST لإصلاح خطأ البناء
+export const OperationType = {
+  LIST: 'LIST',
+  ADD: 'add',
+  UPDATE: 'update',
+  DELETE: 'delete',
+  READ: 'read',
+  QUERY: 'query'
+} as const;
 
-export const handleFirestoreError = (error: any) => {
-  console.error("Firestore Error details:", error);
+// تحديث الدالة لتستقبل العمليات وأسماء المجموعات المتمررة إليها
+export const handleFirestoreError = (error: any, operation?: string, collectionName?: string) => {
+  console.error(`Firestore Error [${operation || 'unknown'}] on [${collectionName || 'unknown'}]:`, error);
   return error?.message || "حدث خطأ في قاعدة البيانات";
 };
