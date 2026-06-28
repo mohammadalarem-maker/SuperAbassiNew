@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // تحقق أولاً إذا كان الأدمن مسجلاً عبر الـ Bypass المحلي
     const isBypassed = localStorage.getItem('admin_bypass') === 'true';
     if (isBypassed) {
-      setUser({ email: 'mohammedalsarem6@gmail.com', uid: 'admin_bypass_uid' } as any);
+      setUser({ email: 'admin@abassi.com', uid: 'admin_bypass_uid' } as any);
       setRole('admin');
       setStatus('active');
       setLoading(false);
@@ -67,7 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       try {
         if (firebaseUser) {
-          const isAdminEmail = firebaseUser.email?.trim().toLowerCase() === 'mohammedalsarem6@gmail.com';
+          const isAdminEmail = firebaseUser.email?.trim().toLowerCase() === 'admin@abassi.com';
           const userEmail = firebaseUser.email?.trim().toLowerCase();
 
           let cachedRole: string | null = null;
@@ -204,7 +204,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const sanitizedEmail = email.trim().toLowerCase();
     
     // تفعيل حماية وتخطي الـ Bypass المحلي للأدمن لمنع تضارب التطبيقات المشتركة
-    if (sanitizedEmail === "mohammedalsarem6@gmail.com" && (password.trim() === "Admintest" || password.trim() === "admintest")) {
+    if (sanitizedEmail === "admin@abassi.com" && (password.trim() === "Admintest" || password.trim() === "admintest")) {
         localStorage.setItem('admin_bypass', 'true');
         setUser({ email: sanitizedEmail, uid: "admin_bypass_uid" } as any);
         setRole("admin");
