@@ -40,8 +40,8 @@ export const Login: React.FC = () => {
       } else if (err.code === 'auth/network-request-failed') {
         friendlyMessage = 'فشل الاتصال بالإنترنت. يرجى التحقق من الشبكة.';
       }
-      setErrorMessage(friendlyMessage);
-      notify.error(friendlyMessage);
+      setErrorMessage(`${friendlyMessage} (${err.code})`);
+      notify.error(`${friendlyMessage} (${err.code})`);
     } finally {
       setLoading(false);
     }
