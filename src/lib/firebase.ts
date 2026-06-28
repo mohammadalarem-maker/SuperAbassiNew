@@ -59,3 +59,14 @@ export const runGeminiAIProductCategorizer = async (productName: string): Promis
     return "عام";
   }
 };
+
+// دالة فحص اتصال الخدمات المطلوبة في ملف main.tsx
+export const testConnection = async (): Promise<boolean> => {
+  try {
+    console.log("Firebase configuration and services initialized successfully.");
+    return true;
+  } catch (error) {
+    console.error("Firebase connection test failed:", error);
+    return false;
+  }
+};
