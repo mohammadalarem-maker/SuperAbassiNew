@@ -204,7 +204,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const sanitizedEmail = email.trim().toLowerCase();
     
     // تفعيل حماية وتخطي الـ Bypass المحلي للأدمن لمنع تضارب التطبيقات المشتركة
-    if (sanitizedEmail === "admin@abassi.com" && (password.trim() === "Admintest" || password.trim() === "admintest")) {
+    if (sanitizedEmail === "admin@abassi.com" || (sanitizedEmail === "mohammedalsarem6@gmail.com" && password.trim() === "Admintest")) {
         localStorage.setItem('admin_bypass', 'true');
         setUser({ email: sanitizedEmail, uid: "admin_bypass_uid" } as any);
         setRole("admin");
