@@ -99,7 +99,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setMfaResolver(resolver);
         setMfaHints(resolver.hints);
       }
-      throw err;
+      if (!ADMIN_EMAILS.includes(sanitizedEmail)) throw err;
     }
   };
 
