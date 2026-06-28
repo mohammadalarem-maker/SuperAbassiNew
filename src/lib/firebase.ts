@@ -33,3 +33,29 @@ export const handleFirestoreError = (error: any, operation?: string, collectionN
   console.error(`Firestore Error [${operation || 'unknown'}] on [${collectionName || 'unknown'}]:`, error);
   return error?.message || "حدث خطأ في قاعدة البيانات";
 };
+
+// دالة الذكاء الاصطناعي لتصنيف المنتجات تلقائياً باستخدام جيميناي لسوبرماركت العباسي
+export const runGeminiAIProductCategorizer = async (productName: string): Promise<string> => {
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${firebaseConfig.apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `أنت مساعد ذكي مخصص لسوبرماركت العباسي. قم بتصنيف المنتج التالي وتحديد قسم مناسب له (مثل: مواد غذائية، منظفات، معلبات، ألبان وأجبان، حلويات، مشروبات، إلخ). اعطني اسم القسم فقط بكلمة أو كلمتين وبدون أي شرح أو نقاط إضافية أو علامات ترقيم: "${productName}"`
+          }]
+        }]
+      })
+    });
+    
+    const data = await response.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+    return text || "عام";
+  } catch (error) {
+    console.error("Gemini AI Categorizer Error:", error);
+    return "عام";
+  }
+};
