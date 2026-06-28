@@ -29,6 +29,9 @@ jobs:
       - name: Build Web Application
         run: npm run build --if-present
 
+      - name: Sync Capacitor
+        run: npx cap sync android
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -43,10 +46,7 @@ jobs:
         with:
           gradle-version: 8.7
 
-      - name: Sync Capacitor
-          run: npx cap sync android
-
-        - name: Build APK (Debug)
+      - name: Build APK (Debug)
         run: |
           if [ -d "android" ]; then
             cd android && gradle assembleDebug
