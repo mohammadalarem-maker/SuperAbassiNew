@@ -43,7 +43,7 @@ jobs:
         with:
           gradle-version: 8.7
 
-      - name: Build APK (Release)
+      - name: Build APK (Debug)
         run: |
           if [ -d "android" ]; then
             cd android && gradle assembleDebug
@@ -58,6 +58,6 @@ jobs:
         with:
           name: SuperAbassi-APK
           path: |
-            android/app/build/outputs/apk/release/*.apk
-            app/build/outputs/apk/release/*.apk
-            build/outputs/apk/release/*.apk
+            android/app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/debug/*.apk
+            build/outputs/apk/debug/*.apk
