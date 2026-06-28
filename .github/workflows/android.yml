@@ -46,9 +46,9 @@ jobs:
       - name: Build APK (Release)
         run: |
           if [ -d "android" ]; then
-            cd android && gradle assembleRelease
+            cd android && gradle assembleDebug
           elif [ -f "gradlew" ]; then
-            gradle assembleRelease
+            gradle assembleDebug
           else
             echo "مجلد مشروع الأندرويد غير موجود!" && exit 1
           fi
