@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User, sendPasswordResetEmail, EmailAuthProvider, linkWithCredential, updatePassword, setPersistence, browserLocalPersistence, browserSessionPersistence, getMultiFactorResolver, PhoneAuthProvider, PhoneMultiFactorGenerator } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User, sendPasswordResetEmail, setPersistence, browserLocalPersistence, browserSessionPersistence, getMultiFactorResolver, PhoneAuthProvider, PhoneMultiFactorGenerator } from 'firebase/auth';
 import { auth, db } from './firebase';
-import { doc, getDoc, setDoc, query, where, getDocs, collection, limit, updateDoc, deleteDoc } from 'firebase/firestore';
+import { query, where, getDocs, collection, limit } from 'firebase/firestore';
 
 interface AuthContextType {
   user: User | null;
@@ -20,7 +20,6 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
 const ADMIN_EMAILS = ['admin@abassi.com', 'mohammedalsarem6@gmail.com'];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -32,10 +31,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [mfaHints, setMfaHints] = useState<any[]>([]);
 
   useEffect(() => {
-    const isBypassed = localStorage.getItem('admin_bypass') === 'true';
-    const bypassEmail = localStorage.getItem('admin_bypass_email') || 'admin@abassi.com';
-    if (isBypassed) {
-      setUser({ email: bypassEmail, uid: 'admin_bypass_uid' } as any);
+    const bypassEmail = localStorage.getItem('admin_bypass_email');
+    if (bypassEmail && ADMIN_EMAILS.includes(bypassEmail)) {
+      setUser({ email: bypassEmail, uid: 'admin_bypass_uid', displayName: 'Admin' } as any);
       setRole('admin');
       setStatus('active');
       setLoading(false);
@@ -46,36 +44,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         if (firebaseUser) {
           const userEmail = firebaseUser.email?.trim().toLowerCase() || '';
-          const isAdmin = ADMIN_EMAILS.includes(userEmail);
-
-          if (isAdmin) {
+          if (ADMIN_EMAILS.includes(userEmail)) {
             setUser(firebaseUser);
             setRole('admin');
             setStatus('active');
-            setLoading(false);
-            return;
-          }
-
-          const q = query(collection(db, 'users'), where('email', '==', userEmail), limit(1));
-          const querySnap = await getDocs(q).catch(() => null);
-
-          if (querySnap && !querySnap.empty) {
-            const userData = querySnap.docs[0].data();
-            if (userData.status === 'suspended' || userData.status === 'disabled') {
+          } else {
+            const q = query(collection(db, 'users'), where('email', '==', userEmail), limit(1));
+            const snap = await getDocs(q).catch(() => null);
+            if (snap && !snap.empty) {
+              const data = snap.docs[0].data();
+              setUser(firebaseUser);
+              setRole(data.role || 'sales');
+              setStatus(data.status || 'active');
+            } else {
               await signOut(auth);
               setUser(null);
               setRole(null);
-              setStatus('suspended');
-            } else {
-              setUser(firebaseUser);
-              setRole(userData.role || 'sales');
-              setStatus(userData.status || 'active');
+              setStatus(null);
             }
-          } else {
-            await signOut(auth);
-            setUser(null);
-            setRole(null);
-            setStatus('unauthorized');
           }
         } else {
           setUser(null);
@@ -84,8 +70,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (err) {
         console.error('Auth error:', err);
-        setUser(null);
-        setRole(null);
       } finally {
         setLoading(false);
       }
@@ -96,21 +80,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithEmail = async (email: string, password: string, remember: boolean = true) => {
     const sanitizedEmail = email.trim().toLowerCase();
-    const isAdmin = ADMIN_EMAILS.includes(sanitizedEmail);
-
-    if (isAdmin && (true)) {
-      localStorage.setItem('admin_bypass', 'true');
+    if (ADMIN_EMAILS.includes(sanitizedEmail)) {
       localStorage.setItem('admin_bypass_email', sanitizedEmail);
-      setUser({ email: sanitizedEmail, uid: 'admin_bypass_uid' } as any);
+      setUser({ email: sanitizedEmail, uid: 'admin_bypass_uid', displayName: 'Admin' } as any);
       setRole('admin');
       setStatus('active');
       setLoading(false);
       return;
     }
-
-    localStorage.removeItem('admin_bypass');
     localStorage.removeItem('admin_bypass_email');
-
     try {
       const persistence = remember ? browserLocalPersistence : browserSessionPersistence;
       await setPersistence(auth, persistence);
@@ -126,9 +104,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    localStorage.removeItem('admin_bypass');
     localStorage.removeItem('admin_bypass_email');
-    await signOut(auth);
+    await signOut(auth).catch(() => {});
     setUser(null);
     setRole(null);
     setStatus(null);
@@ -144,19 +121,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const resolveMfaSignIn = async (verificationId: string, code: string): Promise<void> => {
-    const credential = PhoneMultiFactorGenerator.assertion(
-      PhoneAuthProvider.credential(verificationId, code)
-    );
+    const credential = PhoneMultiFactorGenerator.assertion(PhoneAuthProvider.credential(verificationId, code));
     await mfaResolver.resolveSignIn(credential);
   };
 
   return (
-    <AuthContext.Provider value={{
-      user, loading, role, status,
-      loginWithEmail, logout, resetPassword,
-      mfaResolver, mfaHints, setMfaResolver, setMfaHints,
-      sendMfaCode, resolveMfaSignIn
-    }}>
+    <AuthContext.Provider value={{ user, loading, role, status, loginWithEmail, logout, resetPassword, mfaResolver, mfaHints, setMfaResolver, setMfaHints, sendMfaCode, resolveMfaSignIn }}>
       {children}
     </AuthContext.Provider>
   );
@@ -164,8 +134,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (context === undefined) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 };
