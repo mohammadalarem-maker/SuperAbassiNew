@@ -1,41 +1,21 @@
 {
   "project_info": {
-    "project_number": "795331442491",
-    "firebase_url": "https://mohalistore-fa8b3-default-rtdb.firebaseio.com",
-    "project_id": "mohalistore-fa8b3",
-    "storage_bucket": "mohalistore-fa8b3.firebasestorage.app"
+    "project_number": "115512089872",
+    "project_id": "abassi-final",
+    "storage_bucket": "abassi-final.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:795331442491:android:9d8611a8c3b4f57c78291e",
+        "mobilesdk_app_id": "1:115512089872:android:5762c38bcd8722eb635995",
         "android_client_info": {
-          "package_name": "com.abassi.app"
+          "package_name": "com.abassi.supermarket"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBFuojAdUfZBzz5I-Qj3s8a3LXhlWntznQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:795331442491:android:d471219ebf01ae1a78291e",
-        "android_client_info": {
-          "package_name": "com.mohali.store"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBFuojAdUfZBzz5I-Qj3s8a3LXhlWntznQ"
+          "current_key": "AIzaSyB_I6JlbPbNMsz3P84HM2X1VVp4KtwjMic"
         }
       ],
       "services": {
