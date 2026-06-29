@@ -31,8 +31,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ items, activities, setActi
   return (
     <div className="space-y-6 animate-fadeIn text-right" dir="rtl">
       {/* Welcome & Subtitle */}
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-[#5E1A1A] tracking-tight">
+      <div className="mb-6 p-6 -mx-6 -mt-6 bg-gradient-to-r from-[#1a1a3a] via-[#3b154d] to-[#1a1a3a] rounded-b-[2.5rem] shadow-xl">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
           مرحباً بك في متجر سوبر ماركت العباسي
         </h1>
         <p className="text-[#8B7E74] text-sm md:text-base font-medium mt-1">
@@ -45,7 +45,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ items, activities, setActi
         {/* New Invoice (Brown Accent) */}
         <button
           onClick={() => setActiveTab('pos')}
-          className="flex-1 max-w-[200px] h-12 bg-[#5E1A1A] hover:bg-[#4d1515] active:bg-[#3d1111] text-white text-sm font-bold rounded-2xl flex items-center justify-center gap-1.5 shadow-md shadow-[#5E1A1A]/10 transition-all cursor-pointer"
+          className="flex-1 max-w-[200px] h-12 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 text-white text-sm font-bold rounded-2xl flex items-center justify-center gap-1.5 shadow-md shadow-[#5E1A1A]/10 transition-all cursor-pointer"
           id="btn-new-invoice"
         >
           <span>فاتورة جديدة</span>
@@ -57,7 +57,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ items, activities, setActi
           onClick={() => {
             alert('تم جلب وتجهيز التقرير العام بنجاح لمؤسسة سوبر ماركت العباسي.');
           }}
-          className="flex-1 max-w-[200px] h-12 bg-white hover:bg-slate-50 text-[#5E1A1A] border border-[#EBE3DB] text-sm font-bold rounded-2xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
+          className="flex-1 max-w-[200px] h-12 bg-white hover:bg-slate-50 text-white border border-[#EBE3DB] text-sm font-bold rounded-2xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
           id="btn-download-report"
         >
           <span>تحميل تقرير</span>
