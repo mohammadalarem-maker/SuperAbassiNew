@@ -31,15 +31,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [mfaHints, setMfaHints] = useState<any[]>([]);
 
   useEffect(() => {
-    const bypassEmail = localStorage.getItem('admin_bypass_email');
-    if (bypassEmail && ADMIN_EMAILS.includes(bypassEmail)) {
-      setUser({ email: bypassEmail, uid: 'admin_bypass_uid', displayName: 'Admin' } as any);
-      setRole('admin');
-      setStatus('active');
-      setLoading(false);
-      return;
-    }
-
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
@@ -74,21 +65,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
       }
     });
-
     return unsubscribe;
   }, []);
 
   const loginWithEmail = async (email: string, password: string, remember: boolean = true) => {
     const sanitizedEmail = email.trim().toLowerCase();
-    if (ADMIN_EMAILS.includes(sanitizedEmail)) {
-      localStorage.setItem('admin_bypass_email', sanitizedEmail);
-      setUser({ email: sanitizedEmail, uid: 'admin_bypass_uid', displayName: 'Admin' } as any);
-      setRole('admin');
-      setStatus('active');
-      setLoading(false);
-      return;
-    }
-    localStorage.removeItem('admin_bypass_email');
     try {
       const persistence = remember ? browserLocalPersistence : browserSessionPersistence;
       await setPersistence(auth, persistence);
@@ -99,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setMfaResolver(resolver);
         setMfaHints(resolver.hints);
       }
-      if (!ADMIN_EMAILS.includes(sanitizedEmail)) throw err;
+      throw err;
     }
   };
 
