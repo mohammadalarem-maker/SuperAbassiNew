@@ -74,7 +74,7 @@ export default function Inventory() {
   const [purchasePrice, setPurchasePrice] = useState<number | string>(0);
   const [stock, setStock] = useState<number | string>(0);
   const [minStock, setMinStock] = useState<number | string>(5);
-  const [unit, setUnit] = useState('قطعة');
+  const [unit, setUnit] = useState('حبة');
   const [itemCategory, setItemCategory] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [currency, setCurrency] = useState<'YER' | 'USD' | 'SAR'>('YER');
@@ -326,7 +326,7 @@ export default function Inventory() {
         const rawName = extractedItem.name !== undefined && extractedItem.name !== null ? String(extractedItem.name) : 'منتج مستخرج';
         const cleanName = rawName.trim();
 
-        const rawUnit = extractedItem.unit !== undefined && extractedItem.unit !== null ? String(extractedItem.unit) : 'قطعة';
+        const rawUnit = extractedItem.unit !== undefined && extractedItem.unit !== null ? String(extractedItem.unit) : 'حبة';
         const cleanUnit = rawUnit.trim();
 
         // Safe price and quantity conversion
@@ -456,7 +456,7 @@ export default function Inventory() {
             purchasePrice: purchasePriceVal,
             stock: quantityVal,
             minStock: 5,
-            unit: 'قطعة',
+            unit: 'حبة',
             category: matchedCategory,
             currency: currencyVal,
             createdAt: new Date().toISOString(),
@@ -492,7 +492,7 @@ export default function Inventory() {
     setPurchasePrice(0);
     setStock(15);
     setMinStock(5);
-    setUnit('قطعة');
+    setUnit('حبة');
     const defaultCat = categories.filter(c => c !== 'الكل')?.[0] || 'عام';
     setItemCategory(defaultCat);
     setImageUrl('');
@@ -508,7 +508,7 @@ export default function Inventory() {
     setPurchasePrice(0);
     setStock(1);
     setMinStock(5);
-    setUnit('قطعة');
+    setUnit('حبة');
     const defaultCat = categories.filter(c => c !== 'الكل')?.[0] || 'عام';
     setItemCategory(defaultCat);
     setImageUrl('');
@@ -628,7 +628,7 @@ export default function Inventory() {
     setPurchasePrice(item.purchasePrice || 0);
     setStock(item.stock || 0);
     setMinStock(item.minStock || 5);
-    setUnit(item.unit || 'قطعة');
+    setUnit(item.unit || 'حبة');
     setItemCategory(item.category || categories.filter(c => c !== 'الكل')?.[0] || 'عام');
     setImageUrl(item.imageUrl || '');
     setCurrency(item.currency || 'YER');
@@ -787,7 +787,7 @@ export default function Inventory() {
       it.price || 0,
       it.purchasePrice || 0,
       it.stock || 0,
-      it.unit || 'قطعة'
+      it.unit || 'حبة'
     ]);
 
     exportToCSVInBackground(headers, rows, `inventory_sales_sheet_${Date.now()}`);
@@ -1420,7 +1420,7 @@ export default function Inventory() {
                          <input
                            type="text"
                            required
-                           placeholder="قطعة"
+                           placeholder="حبة"
                            value={unit}
                            onChange={(e) => setUnit(e.target.value)}
                            className="w-full px-2.5 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none text-right text-gray-950 dark:text-gray-50"
@@ -1591,7 +1591,7 @@ export default function Inventory() {
                                   <div className="text-left">
                                      <span className="text-[10px] font-bold text-gray-400 block font-sans">الكمية الحالية بالمخزون</span>
                                      <span className="text-xl font-black text-gray-800 dark:text-gray-200 font-mono inline-block mt-1">
-                                        {stocktakeScannedItem.stock} {stocktakeScannedItem.unit || 'قطعة'}
+                                        {stocktakeScannedItem.stock} {stocktakeScannedItem.unit || 'حبة'}
                                      </span>
                                   </div>
                                </div>
@@ -1623,7 +1623,7 @@ export default function Inventory() {
                                               +
                                            </button>
                                         </div>
-                                        <span className="text-xs text-gray-400 font-bold font-sans">({stocktakeScannedItem.unit || 'قطعة'}) تم عدّها في الرفوف</span>
+                                        <span className="text-xs text-gray-400 font-bold font-sans">({stocktakeScannedItem.unit || 'حبة'}) تم عدّها في الرفوف</span>
                                      </div>
 
                                      <div className="flex justify-end gap-2 pt-2">

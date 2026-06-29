@@ -439,7 +439,7 @@ export default function POS() {
               item_name: cartItem.item.name,
               current_stock: remainingStock,
               min_stock: minLimit,
-              unit: cartItem.item.unit || 'قطعة'
+              unit: cartItem.item.unit || 'حبة'
             })
           }).then(res => res.json())
             .then(data => console.log('PHP Low Stock Notification outcome:', data))
