@@ -133,7 +133,7 @@ const DashboardSkeleton = () => (
       <div className="h-5 w-40 bg-gray-200 dark:bg-slate-800 rounded"></div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="space-y-3 bg-gray-50/50 dark:bg-slate-900/50 p-4 rounded-2xl border border-gray-150 dark:border-slate-800">
+          <div key={i} className="space-y-3 bg-gray-50/50 dark:bg-[#111827]/50 p-4 rounded-2xl border border-gray-150 dark:border-slate-800">
             <div className="h-4 w-28 bg-gray-200 dark:bg-slate-800 rounded"></div>
             <div className="h-3 w-32 bg-gray-150 dark:bg-slate-800 rounded"></div>
             <div className="h-3 w-20 bg-gray-100 dark:bg-slate-800 rounded"></div>
@@ -148,7 +148,7 @@ const CustomTooltip = ({ active, payload, currency }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-white dark:bg-slate-900 border border-gray-150 dark:border-slate-800 p-4 rounded-xl shadow-xl text-right max-w-[280px]" dir="rtl">
+      <div className="bg-white dark:bg-[#111827] border border-gray-150 dark:border-slate-800 p-4 rounded-xl shadow-xl text-right max-w-[280px]" dir="rtl">
         <p className="text-xs font-black text-slate-900 dark:text-slate-100 mb-2 border-b border-gray-100 dark:border-slate-800/80 pb-1.5 font-sans">
           {data.dayName} ، {data.fullDate}
         </p>
@@ -499,7 +499,7 @@ export default function Dashboard() {
         <StatCard 
           title="صافي الأرباح" 
           value={`${(stats.netProfit || 0).toLocaleString()} ${shopSettings?.currency || 'ر.ي'}`} 
-          change="الربح الحقيقي النهائي" 
+          change="الربح الحقيقي النهائي النهائي" 
           isPositive={stats.netProfit >= 0} 
           icon={TrendingUp}
           color="bg-green-100 dark:bg-green-950/40 text-green-700 shadow-sm"
@@ -521,7 +521,7 @@ export default function Dashboard() {
           color="bg-red-50 dark:bg-red-950/30 text-red-600"
         />
         <StatCard 
-          title="هامش الربح الكلي" 
+          title="هامش الربح الكلي الكلي" 
           value={`${(stats.grossProfit || 0).toLocaleString()} ${shopSettings?.currency || 'ر.ي'}`} 
           change="قبل خصم المصاريف" 
           isPositive={stats.grossProfit >= 0} 
@@ -560,7 +560,7 @@ export default function Dashboard() {
         {/* SAR Box */}
         <motion.div 
           whileHover={{ y: -4 }}
-          className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 dark:from-emerald-950/20 dark:to-slate-900 border border-emerald-500/20 p-5 rounded-2xl relative overflow-hidden shadow-xs"
+          className="bg-gradient-to-br from-[#1a1a3a] to-[#3b154d]500/10 to-emerald-500/5 dark:from-[#1a1a3a] to-[#3b154d]950/20 dark:to-slate-900 border border-emerald-500/20 p-5 rounded-2xl relative overflow-hidden shadow-xs"
         >
           <div className="flex justify-between items-start">
             <div className="space-y-1">
@@ -632,7 +632,7 @@ export default function Dashboard() {
                  const totalS = totalSalesByCurrency[curr.code] || 0;
                  const netP = netProfitByCurrency[curr.code] || 0;
                  return (
-                    <div key={curr.code} className="bg-gray-50/50 dark:bg-slate-900/50 border border-gray-150/40 dark:border-slate-800/80 rounded-xl p-4 space-y-2 relative overflow-hidden">
+                    <div key={curr.code} className="bg-gray-50/50 dark:bg-[#111827]/50 border border-gray-150/40 dark:border-slate-800/80 rounded-xl p-4 space-y-2 relative overflow-hidden">
                        <div className="flex justify-between items-center bg-gray-100/35 dark:bg-slate-800/40 px-2 py-1 rounded-lg">
                           <span className="text-xs font-black text-gray-800 dark:text-gray-200">{curr.code} ({curr.symbol})</span>
                           {!curr.isBase && (
@@ -681,7 +681,7 @@ export default function Dashboard() {
         {/* Today's Pieces Sold Widget */}
         <motion.div 
           whileHover={{ y: -2 }}
-          className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 dark:from-emerald-950/20 dark:to-emerald-950/10 border border-emerald-500/20 p-4 rounded-xl flex items-center justify-between shadow-xs"
+          className="bg-gradient-to-br from-[#1a1a3a] to-[#3b154d]500/10 to-emerald-500/5 dark:from-[#1a1a3a] to-[#3b154d]950/20 dark:to-emerald-950/10 border border-emerald-500/20 p-4 rounded-xl flex items-center justify-between shadow-xs"
         >
           <div className="min-w-0 text-right">
              <span className="text-[10px] font-bold text-emerald-700 dark:text-amber-400 uppercase tracking-wider block mb-1">قطع مباعة اليوم</span>
@@ -771,7 +771,7 @@ export default function Dashboard() {
                 التقارير التحليلية والبيانية
               </h4>
               <p className="text-[10px] md:text-xs text-secondary mt-1 line-clamp-2 leading-relaxed">
-                متابعة حركة المبيعات، ومراقبة عوائد الأرباح وحساب تكلفة البضاعة المباعة COGS وهامش الربح ودفاتر اليومية.
+                متابعة حركة المبيعات، ومراقبة عوائد الأرباح وحساب تكلفة البضاعة المباعة COGS وهامش الربح الكلي ودفاتر اليومية.
               </p>
               
               <div className="mt-4 flex items-center gap-3">
@@ -804,7 +804,7 @@ export default function Dashboard() {
           
           <div className="flex flex-wrap items-center gap-3 justify-start">
             {/* Metric Tab Selector */}
-            <div className="flex bg-gray-100 dark:bg-slate-900 border border-gray-200/50 dark:border-slate-800 p-1 rounded-xl shadow-inner select-none">
+            <div className="flex bg-gray-100 dark:bg-[#111827] border border-gray-200/50 dark:border-slate-800 p-1 rounded-xl shadow-inner select-none">
               <button
                 type="button"
                 onClick={() => setChartMetric('sales')}
@@ -821,7 +821,7 @@ export default function Dashboard() {
                 onClick={() => setChartMetric('profit')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer border-none ${
                   chartMetric === 'profit'
-                    ? 'bg-emerald-600 text-white shadow-sm'
+                    ? 'bg-gradient-to-r from-[#1a1a3a] via-[#3b154d] to-[#1a1a3a] text-white shadow-sm'
                     : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
@@ -841,7 +841,7 @@ export default function Dashboard() {
             </div>
 
             {/* Timeframe Selector */}
-            <div className="flex bg-gray-100 dark:bg-slate-900 border border-gray-200/50 dark:border-slate-800 p-1 rounded-xl shadow-inner select-none flex-shrink-0">
+            <div className="flex bg-gray-100 dark:bg-[#111827] border border-gray-200/50 dark:border-slate-800 p-1 rounded-xl shadow-inner select-none flex-shrink-0">
               <button
                 type="button"
                 onClick={() => setChartPeriod(7)}
@@ -1003,7 +1003,7 @@ export default function Dashboard() {
                        <div className="w-8 h-8 rounded-lg bg-green-50 text-green-600 flex items-center justify-center font-bold">1</div>
                        <p className="text-xs font-bold text-gray-400">تحليل المبيعات والمخزون</p>
                     </div>
-                    <div className="p-4 bg-gray-50 dark:bg-slate-900/50 rounded-2xl border border-gray-100/50 dark:border-slate-800 space-y-3">
+                    <div className="p-4 bg-gray-50 dark:bg-[#111827]/50 rounded-2xl border border-gray-100/50 dark:border-slate-800 space-y-3">
                        <div className="flex justify-between text-xs">
                           <span className="text-gray-500 text-right">إجمالي المبيعات</span>
                           <span className="font-bold">{(stats.totalSales || 0).toLocaleString()}</span>
@@ -1032,7 +1032,7 @@ export default function Dashboard() {
                        <div className="w-8 h-8 rounded-lg bg-red-50 text-red-650 flex items-center justify-center font-bold">2</div>
                        <p className="text-xs font-bold text-gray-400">تحليل المصاريف والتشغيل</p>
                     </div>
-                    <div className="p-4 bg-gray-50 dark:bg-slate-900/50 rounded-2xl border border-gray-100/50 dark:border-slate-800 space-y-3">
+                    <div className="p-4 bg-gray-50 dark:bg-[#111827]/50 rounded-2xl border border-gray-100/50 dark:border-slate-800 space-y-3">
                        <div className="flex justify-between text-xs">
                           <span className="text-gray-500 text-right">ربح المبيعات</span>
                           <span className="font-bold">{(stats.grossProfit || 0).toLocaleString()}</span>

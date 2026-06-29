@@ -81,7 +81,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ items, activities, setActi
             </h3>
             <p className="text-[10px] md:text-xs text-[#2E7D32] font-semibold mt-1 flex items-center gap-0.5">
               <span>⬈</span>
-              <span>الربح الحقيقي النهائي</span>
+              <span>الربح الحقيقي النهائي النهائي</span>
             </p>
           </div>
         </div>
@@ -124,10 +124,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ items, activities, setActi
           </div>
         </div>
 
-        {/* Card 4: هامش الربح الكلي (Bottom Left) */}
+        {/* Card 4: هامش الربح الكلي الكلي (Bottom Left) */}
         <div className="bg-white border border-[#F0E6DD] rounded-3xl p-5 shadow-xs flex flex-col justify-between h-[130px] relative overflow-hidden group hover:shadow-md transition-all">
           <div className="flex justify-between items-start">
-            <span className="text-[#8B7E74] text-xs font-bold">هامش الربح الكلي</span>
+            <span className="text-[#8B7E74] text-xs font-bold">هامش الربح الكلي الكلي</span>
             <div className="w-10 h-10 rounded-2xl bg-[#E3F2FD] text-[#0D47A1] flex items-center justify-center">
               <ArrowUpRight className="w-5 h-5" />
             </div>
