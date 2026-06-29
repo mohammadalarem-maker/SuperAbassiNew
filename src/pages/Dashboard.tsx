@@ -499,7 +499,7 @@ export default function Dashboard() {
         <StatCard 
           title="صافي الأرباح" 
           value={`${(stats.netProfit || 0).toLocaleString()} ${shopSettings?.currency || 'ر.ي'}`} 
-          change="الربح الحقيقي النهائي النهائي" 
+          change="الربح الحقيقي النهائي" 
           isPositive={stats.netProfit >= 0} 
           icon={TrendingUp}
           color="bg-green-100 dark:bg-green-950/40 text-green-700 shadow-sm"
@@ -671,9 +671,9 @@ export default function Dashboard() {
           <div className="min-w-0 text-right">
              <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block mb-1">المبيعات اليومية</span>
              <h4 className="text-lg md:text-xl font-extrabold text-amber-950 dark:text-amber-100 truncate">{(dailySales || 0).toLocaleString()} {shopSettings?.currency || 'ر.ي'}</h4>
-             <p className="text-[9px] text-amber-600 dark:text-amber-400 mt-1 font-medium">إجمالي مبيعات اليوم الفعلي</p>
+             <p className="text-[9px] text-white dark:text-amber-400 mt-1 font-medium">إجمالي مبيعات اليوم الفعلي</p>
           </div>
-          <div className="w-10 h-10 bg-amber-500/25 text-amber-600 dark:text-amber-400 rounded-lg flex items-center justify-center shrink-0 ml-2">
+          <div className="w-10 h-10 bg-amber-500/25 text-white dark:text-amber-400 rounded-lg flex items-center justify-center shrink-0 ml-2">
              <ShoppingCart className="w-5 h-5" />
           </div>
         </motion.div>

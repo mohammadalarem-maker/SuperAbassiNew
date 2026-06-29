@@ -81,7 +81,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ items, activities, setActi
             </h3>
             <p className="text-[10px] md:text-xs text-[#2E7D32] font-semibold mt-1 flex items-center gap-0.5">
               <span>⬈</span>
-              <span>الربح الحقيقي النهائي النهائي</span>
+              <span>الربح الحقيقي النهائي</span>
             </p>
           </div>
         </div>
