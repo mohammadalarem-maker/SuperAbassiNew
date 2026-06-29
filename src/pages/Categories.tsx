@@ -104,7 +104,7 @@ export default function CategoriesPage() {
            </div>
            <div className="text-right">
               <h1 className="text-xl font-black text-gray-900 dark:text-white">فئات ومجموعات المنتجات</h1>
-              <p className="text-xs text-gray-500 font-bold mt-0.5">تصنيف منتجاتك (اكسسوارات، هواتف، كروت، صيانة) لتسريع الفرز في الكاشير</p>
+              <p className="text-xs text-gray-500 font-bold mt-0.5">تصنيف أصنافك (مواد غذائية، معلبات، منظفات، ألبان) لتسريع الفرز في الكاشير</p>
            </div>
          </div>
 
@@ -125,7 +125,7 @@ export default function CategoriesPage() {
       ) : categoriesDocs.filter(c => c.name !== 'الكل').length === 0 ? (
         <div className="h-64 bg-surface rounded-2xl border border-gray-150 p-6 flex flex-col items-center justify-center gap-2 text-gray-400 font-bold">
            <Tag className="w-8 h-8 opacity-40 text-[#8B5E3C]" />
-           <p className="text-sm">لم تسجل أي فئات لتصنيف المنتجات حتى الآن</p>
+           <p className="text-sm">لم تسجل أي فئات لتصنيف الأصناف حتى الآن</p>
         </div>
       ) : (
         <div className="bg-surface rounded-2xl border border-gray-155 dark:border-slate-800 overflow-hidden shadow-sm">
