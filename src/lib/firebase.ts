@@ -24,10 +24,29 @@ export const testConnection = async () => {
   return true;
 };
 
-// دالة تصنيف المنتجات بـ Gemini AI المطلوبة في صفحة المخزن
-export const runGeminiAIProductCategorizer = async (...args: any[]) => {
-  console.log("Gemini AI Categorizer triggered:", args);
-  return "عام"; 
+// الخطوة 1: تحويل دالة الذكاء الاصطناعي لخدمة أصناف السوبرماركت تلقائياً
+export const runGeminiAIProductCategorizer = async (productName: string) => {
+  if (!productName) return "عام";
+  
+  const name = productName.toLowerCase();
+  
+  if (name.includes("حليب") || name.includes("جبن") || name.includes("زبادي") || name.includes("قشطة") || name.includes("لبن")) {
+    return "ألبان وأجبان";
+  }
+  if (name.includes("صابون") || name.includes("شامبو") || name.includes("كلوركس") || name.includes("ديتول") || name.includes("غسيل") || name.includes("منظف")) {
+    return "منظفات ومستلزمات عناية";
+  }
+  if (name.includes("تونا") || name.includes("فاصوليا") || name.includes("فول") || name.includes("صلصة") || name.includes("مشروم") || name.includes("معلب")) {
+    return "معلبات";
+  }
+  if (name.includes("رز") || name.includes("سكر") || name.includes("دقيق") || name.includes("زيت") || name.includes("مكرونة") || name.includes("شاهي")) {
+    return "مواد غذائية أساسية";
+  }
+  if (name.includes("بسكويت") || name.includes("شيبس") || name.includes("شوكولاته") || name.includes("عصير") || name.includes("غازي") || name.includes("كندور")) {
+    return "سكاكر ومشروبات";
+  }
+  
+  return "بضائع عامة";
 };
 
 // حماية نوع البيانات لمنع Vite من حذفه أثناء التجميع
