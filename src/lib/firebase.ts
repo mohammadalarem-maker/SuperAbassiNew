@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDe5YiK-zxhfBWKvOuQxr4NC5M8s4oFGxc",
@@ -15,8 +16,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 
-// حماية مزدوجة: تعريفها كـ Type وكـ كائن حقيقي لمنع Vite من حذفها أثناء بناء الويب
+// منع Vite من حذف النوع أثناء بناء الويب
 export type OperationType = 'add' | 'update' | 'delete' | 'read' | 'query' | any;
 export const OperationType = {} as any;
 
