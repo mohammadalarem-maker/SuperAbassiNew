@@ -53,7 +53,7 @@ export default function Settings() {
   const [shopName, setShopName] = useState('سوبر ماركت العباسي');
   const [shopPhone, setShopPhone] = useState('784707050 - 778915055');
   const [shopAddress, setShopAddress] = useState('صنعاء - مذبح - جوار فندق ضواحي صنعاء');
-  const [receiptNotes, setReceiptNotes] = useState('صيانة وبموجة هواتف\nبيع جوالات - صيانة برمجة - اكسسوارات - ادوات تجميل - نسخ الافلام والمسلسلات - طباعة\nشكراً لتعاملكم معنا! البضاعة المباعة لا ترد ولا تستبدل بعد 24 ساعة.');
+  const [receiptNotes, setReceiptNotes] = useState('صيانة وبموجة هواتف\nبيع مواد غذائية - ألبان وأجبان - معلبات - منظفات ومستلزمات عناية\nشكراً لتعاملكم معنا! البضاعة المباعة لا ترد ولا تستبدل بعد 24 ساعة.');
   const [currency, setCurrency] = useState('ر.ي');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [logoUrl, setLogoUrl] = useState('https://i.imgur.com/gK9Jd74.png');
