@@ -721,16 +721,16 @@ export default function Dashboard() {
           <motion.div
             whileHover={{ y: -4, scale: 1.01 }}
             onClick={() => navigate('/inventory')}
-            className="group relative overflow-hidden bg-gradient-to-br from-white to-orange-50/10 dark:from-slate-900 dark:to-slate-950 border border-gray-100 dark:border-slate-800 hover:border-orange-500/30 rounded-2xl p-5 md:p-6 shadow-xs hover:shadow-md transition-all cursor-pointer flex gap-4 items-center"
+            className="group relative overflow-hidden bg-gradient-to-br from-white to-emerald-50/10 dark:from-slate-900 dark:to-slate-950 border border-gray-100 dark:border-slate-800 hover:border-emerald-500/30 rounded-2xl p-5 md:p-6 shadow-xs hover:shadow-md transition-all cursor-pointer flex gap-4 items-center"
           >
             {/* Visual background glow */}
-            <div className="absolute -right-12 -top-12 w-28 h-28 bg-orange-500/5 dark:bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/10 transition-all duration-500" />
+            <div className="absolute -right-12 -top-12 w-28 h-28 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-all duration-500" />
             
             <div className="flex-1 min-w-0 pr-1 text-right">
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-extrabold text-orange-600 bg-orange-500/10 mb-2">
+              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-extrabold text-emerald-600 bg-emerald-500/10 mb-2">
                 نظام إدارة المخزون
               </span>
-              <h4 className="text-sm md:text-base font-black text-gray-900 dark:text-white group-hover:text-orange-600 transition-colors">
+              <h4 className="text-sm md:text-base font-black text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors">
                 إدارة المخازن والمشتريات
               </h4>
               <p className="text-[10px] md:text-xs text-secondary mt-1 line-clamp-2 leading-relaxed">

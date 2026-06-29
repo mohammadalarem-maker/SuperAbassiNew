@@ -1051,7 +1051,7 @@ export default function POS() {
                 title="دين"
                 className={`flex flex-col items-center gap-1 p-2 border rounded-xl transition-colors group cursor-pointer ${paymentType === 'debt' ? 'bg-red-500/5 border-red-500' : 'border-gray-150 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-900'}`}
               >
-                 <AlertCircle className={`w-4 h-4 group-hover:scale-110 transition-transform ${paymentType === 'debt' ? 'text-red-500' : 'text-orange-500'}`} />
+                 <AlertCircle className={`w-4 h-4 group-hover:scale-110 transition-transform ${paymentType === 'debt' ? 'text-red-500' : 'text-emerald-500'}`} />
                  <span className="text-[8px] font-bold text-gray-600 dark:text-gray-400">دين</span>
               </button>
               <button 

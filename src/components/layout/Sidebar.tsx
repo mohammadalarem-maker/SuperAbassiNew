@@ -190,7 +190,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen, onLogoutClick }: { 
           )}
 
           {!collapsed && (
-            <div className="px-3 py-2 bg-gradient-to-r from-orange-50/30 to-amber-50/30 dark:from-slate-800/50 dark:to-slate-800/25 border border-amber-150/10 rounded-xl text-[10px] text-gray-400 font-bold flex flex-col items-center justify-center gap-0.5 mt-1 mb-2 text-center select-none">
+            <div className="px-3 py-2 bg-gradient-to-r from-emerald-50/30 to-amber-50/30 dark:from-slate-800/50 dark:to-slate-800/25 border border-amber-150/10 rounded-xl text-[10px] text-gray-400 font-bold flex flex-col items-center justify-center gap-0.5 mt-1 mb-2 text-center select-none">
               <span className="text-gray-500 font-bold">برمجة وتطوير المبرمج</span>
               <span className="text-secondary font-black text-xs">محمد الصارم</span>
               <span className="font-mono text-primary font-black">776591639</span>

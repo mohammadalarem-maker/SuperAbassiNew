@@ -792,7 +792,7 @@ export default function Settings() {
                 { id: 'debts', label: 'الديون الموقوفة والمديونيات', icon: Scale, color: 'text-rose-500 bg-rose-500/10' },
                 { id: 'expenses', label: 'المصروفات والمشتريات التشغيلية', icon: Coins, color: 'text-amber-500 bg-amber-500/10' },
                 { id: 'accounts', label: 'دليل الحسابات والأستاذ المالي', icon: Database, color: 'text-teal-500 bg-teal-500/10' },
-                { id: 'journal', label: 'القيود اليومية العامة واليومية المساعدة', icon: FileText, color: 'text-orange-500 bg-orange-500/10' },
+                { id: 'journal', label: 'القيود اليومية العامة واليومية المساعدة', icon: FileText, color: 'text-emerald-500 bg-emerald-500/10' },
                 { id: 'activities', label: 'سجلات عمليات وأنشطة الموظفين', icon: Activity, color: 'text-slate-500 bg-slate-500/10' },
                 { id: 'users', label: 'إدارة المستخدمين وصلاحيات الحسابات', icon: ShieldAlert, color: 'text-red-500 bg-red-500/10' },
               ].map((coll) => {
