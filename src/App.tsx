@@ -240,7 +240,7 @@ export default function App() {
      return (
        <div className="min-h-screen bg-[#0D0B0A] flex flex-col justify-center items-center p-6 text-center select-none overflow-hidden relative" dir="rtl">
           {/* Subtle warm ambient background glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-amber-500/10 blur-[100px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-emerald-500/10 blur-[100px] pointer-events-none" />
           
           <div className="flex flex-col items-center gap-6 relative z-10">
              {/* Logo Container with Glow & Pulsing scale/opacity */}
@@ -279,7 +279,7 @@ export default function App() {
                      repeat: Infinity,
                      ease: "easeInOut"
                    }}
-                   className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200 tracking-wide font-sans drop-shadow-[0_2px_10px_rgba(226,168,92,0.1)]"
+                   className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-emerald-400 to-emerald-200 tracking-wide font-sans drop-shadow-[0_2px_10px_rgba(226,168,92,0.1)]"
                 >
                    نظام سوبر ماركت العباسي الذكي
                 </motion.h2>
@@ -298,14 +298,14 @@ export default function App() {
                      ease: "easeInOut",
                      delay: 0.3
                    }}
-                   className="text-[11px] font-bold text-amber-500/80 mt-1"
+                   className="text-[11px] font-bold text-emerald-500/80 mt-1"
                 >
                    جاري قراءة وتشفير قواعد سوبر ماركت العباسي...
                 </motion.p>
              </div>
              
              {/* Bottom miniature progress-indicator */}
-             <div className="w-32 h-1 bg-[#1A120B] rounded-full overflow-hidden mt-2 border border-amber-500/10">
+             <div className="w-32 h-1 bg-[#1A120B] rounded-full overflow-hidden mt-2 border border-emerald-500/10">
                 <motion.div 
                    initial={{ x: "-100%" }}
                    animate={{ x: "100%" }}
