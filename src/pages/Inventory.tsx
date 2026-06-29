@@ -1285,11 +1285,11 @@ export default function Inventory() {
                  <form onSubmit={handleSave} className="space-y-4 text-right">
                    
                    <div className="space-y-1 text-right">
-                      <label className="text-[10px] font-bold text-gray-500 block mr-1">اسم المنتج والملحق الكامل:</label>
+                      <label className="text-[10px] font-bold text-gray-500 block mr-1">اسم الصنف (النوع والوزن/الحجم):</label>
                       <input
                         type="text"
                         required
-                        placeholder="جوال ردمي نوت 13 برو 256GB"
+                        placeholder="أرز الشعلان 5 كيلو أو زبادي الهناء عائلي"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none focus:border-primary text-right text-gray-950 dark:text-gray-50"
