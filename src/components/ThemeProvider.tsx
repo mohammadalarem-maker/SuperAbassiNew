@@ -43,21 +43,21 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
-      document.documentElement.style.setProperty('--primary', '#A78BFA');
-      document.documentElement.style.setProperty('--secondary', '#F472B6');
-      document.documentElement.style.setProperty('--background', '#0f0c29');
-      document.documentElement.style.setProperty('--surface', 'rgba(255,255,255,0.08)');
+      document.documentElement.style.setProperty('--primary', '#FF6B35');
+      document.documentElement.style.setProperty('--secondary', '#FF8C42');
+      document.documentElement.style.setProperty('--background', '#1A1A2E');
+      document.documentElement.style.setProperty('--surface', '#16213E');
       document.documentElement.style.setProperty('--text', '#F1F5F9');
-      document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)');
+      document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(160deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%)');
       try { localStorage.setItem('theme-mode', 'dark'); } catch {}
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.style.setProperty('--primary', '#6366F1');
-      document.documentElement.style.setProperty('--secondary', '#8B5CF6');
-      document.documentElement.style.setProperty('--background', '#F0F4FF');
-      document.documentElement.style.setProperty('--surface', 'rgba(255,255,255,0.85)');
-      document.documentElement.style.setProperty('--text', '#1E1B4B');
-      document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)');
+      document.documentElement.style.setProperty('--primary', '#FF6B35');
+      document.documentElement.style.setProperty('--secondary', '#FF8C42');
+      document.documentElement.style.setProperty('--background', '#FFF5F0');
+      document.documentElement.style.setProperty('--surface', '#FFFFFF');
+      document.documentElement.style.setProperty('--text', '#1A1A2E');
+      document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(160deg, #FF6B35 0%, #FF8C42 40%, #FFB347 100%)');
       try { localStorage.setItem('theme-mode', 'light'); } catch {}
     }
   }, [isDarkMode]);

@@ -21,7 +21,7 @@ body {
 }
 
 :root {
-  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  --bg-gradient: linear-gradient(160deg, #FF6B35 0%, #FF8C42 40%, #FFB347 100%);
 }
 
 .dark {
